@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Birthday Maryann 🎃</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Caveat:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --o:#FF6B35;--gold:#FFB347;--rose:#FF4D6D;
+  --deep:#0d0500;--dark:#170900;--cream:#FFF5E6;
+  --muted:rgba(255,245,230,.55);--card:rgba(255,255,255,.04);
+  --border:rgba(255,107,53,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--deep);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
+#cur{width:14px;height:14px;background:var(--o);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:left .06s,top .06s;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;flex-wrap:wrap;gap:.2rem;padding:.7rem 1rem;background:rgba(13,5,0,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+nav a{font-family:'Caveat',cursive;font-size:1rem;color:var(--muted);text-decoration:none;padding:.35rem .85rem;border-radius:100px;transition:color .2s,background .2s;cursor:pointer;}
+nav a:hover,nav a.on{color:var(--cream);background:rgba(255,107,53,.2);}
+
+/* FLOATERS */
+#fl{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.f{position:absolute;opacity:.13;animation:fup linear infinite;}
+@keyframes fup{0%{transform:translateY(105vh) rotate(0);opacity:0}8%{opacity:.13}92%{opacity:.13}100%{transform:translateY(-8vh) rotate(360deg);opacity:0}}
+
+/* PAGES */
+.pg{display:none;min-height:100vh;padding:5.5rem 1.5rem 4rem;position:relative;z-index:1;}
+.pg.on{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+
+/* TYPOGRAPHY */
+.big{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,11vw,8rem);line-height:1.03;text-align:center;}
+.big em{color:var(--o);font-style:italic;}
+.script{font-family:'Caveat',cursive;}
+.gold{color:var(--gold);}
+.tag{font-family:'Caveat',cursive;font-size:1.05rem;color:var(--gold);letter-spacing:.18em;margin-bottom:.8rem;}
+.sub{font-family:'Caveat',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:var(--gold);margin-top:1rem;text-align:center;}
+.div{width:48px;height:2px;background:var(--o);margin:.4rem auto 2.2rem;border-radius:2px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.8rem);text-align:center;margin-bottom:.3rem;}
+.sec-title em{color:var(--o);font-style:italic;}
+
+/* fade in */
+@keyframes fd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.fd{opacity:0;animation:fd .7s forwards;}
+
+/* ── PAGE 1 HERO ── */
+#p1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(255,107,53,.17) 0%,transparent 68%);pointer-events:none;}
+.hero-hint{position:absolute;bottom:2.2rem;font-size:.72rem;letter-spacing:.22em;color:var(--o);animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* music pill */
+.mpill{display:inline-flex;align-items:center;gap:.7rem;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.28);border-radius:100px;padding:.55rem 1.4rem;margin-top:1.8rem;cursor:pointer;transition:background .2s;user-select:none;}
+.mpill:hover{background:rgba(255,107,53,.22);}
+.eqbars{display:flex;align-items:flex-end;gap:3px;height:16px;}
+.eb{width:3px;background:var(--o);border-radius:2px;animation:eq .75s ease-in-out infinite alternate;}
+.eb:nth-child(1){height:7px;animation-delay:0s}
+.eb:nth-child(2){height:13px;animation-delay:.12s}
+.eb:nth-child(3){height:9px;animation-delay:.27s}
+.eb:nth-child(4){height:15px;animation-delay:.08s}
+.eb:nth-child(5){height:6px;animation-delay:.2s}
+@keyframes eq{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+.mpill.off .eb{animation-play-state:paused;}
+
+/* ── COUNTDOWN ── */
+.cd-wrap{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;margin-top:1.6rem;}
+.cd-box{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);border-radius:16px;padding:1rem 1.4rem;min-width:75px;text-align:center;}
+.cd-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;line-height:1;color:var(--cream);}
+.cd-label{font-family:'Caveat',cursive;font-size:.85rem;color:var(--gold);margin-top:.2rem;}
+
+/* ── PAGE 2 JOKES ── */
+#p2{background:none;}
+.joke-stage{width:100%;max-width:620px;text-align:center;}
+.joke-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2.5rem 2rem;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;position:relative;overflow:hidden;transition:transform .2s;}
+.joke-card:hover{transform:scale(1.01);}
+.joke-emoji{font-size:2.4rem;}
+.joke-text{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-style:italic;line-height:1.7;color:var(--cream);}
+.joke-punchline{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--gold);display:none;}
+.joke-punchline.show{display:block;animation:fd .4s forwards;}
+.joke-actions{display:flex;gap:.8rem;margin-top:1.4rem;flex-wrap:wrap;justify-content:center;}
+.jbtn{font-family:'Caveat',cursive;font-size:1.15rem;border-radius:100px;padding:.6rem 1.6rem;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--cream);transition:background .2s,transform .15s;}
+.jbtn:hover{transform:scale(1.05);}
+.jbtn.primary{background:var(--o);border-color:var(--o);color:var(--deep);font-weight:700;}
+.joke-counter{font-family:'Caveat',cursive;font-size:.95rem;color:var(--muted);margin-top:.8rem;}
+
+/* ── PAGE 3 DOLLY / INTERACTIVE ── */
+.dollys{display:flex;flex-direction:column;align-items:center;gap:1.5rem;width:100%;max-width:680px;}
+.dolly{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.4rem 1.8rem;width:100%;cursor:pointer;transition:border-color .25s,transform .2s,box-shadow .2s;position:relative;overflow:hidden;}
+.dolly:hover{border-color:var(--o);transform:translateY(-3px);box-shadow:0 12px 35px rgba(255,107,53,.13);}
+.dolly-head{display:flex;align-items:center;gap:.9rem;}
+.dolly-icon{font-size:1.8rem;flex-shrink:0;}
+.dolly-q{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
+.dolly-arrow{margin-left:auto;color:var(--o);font-size:1.2rem;transition:transform .3s;}
+.dolly.open .dolly-arrow{transform:rotate(180deg);}
+.dolly-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.dolly.open .dolly-body{max-height:300px;padding-top:.9rem;}
+.dolly-body p{font-size:.95rem;line-height:1.8;color:var(--muted);}
+
+/* ── PAGE 4 MESSAGES ── */
+.msgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.2rem;width:100%;max-width:960px;}
+.msg-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.6rem;transition:transform .25s,border-color .25s,box-shadow .25s;position:relative;}
+.msg-card:hover{transform:translateY(-5px) rotate(-.4deg);border-color:var(--o);box-shadow:0 14px 35px rgba(255,107,53,.12);}
+.msg-card::before{content:attr(data-e);position:absolute;top:-8px;right:10px;font-size:2.8rem;opacity:.13;}
+.msg-from{font-family:'Caveat',cursive;font-size:.9rem;color:var(--o);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+.msg-card h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;margin-bottom:.6rem;}
+.msg-card p{font-size:.9rem;line-height:1.78;color:var(--muted);}
+
+/* ── PAGE 5 GUESTBOOK ── */
+.gb-wrap{width:100%;max-width:640px;}
+.gb-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:2rem;}
+.gb-form h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin-bottom:1.1rem;}
+.gf{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.92rem;margin-bottom:.8rem;outline:none;transition:border-color .2s;}
+.gf:focus{border-color:var(--o);}
+textarea.gf{resize:vertical;min-height:80px;}
+.eprow{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.ep{background:rgba(255,107,53,.08);border:1px solid var(--border);border-radius:8px;padding:.3rem .5rem;font-size:1.15rem;cursor:pointer;transition:background .15s;}
+.ep.sel,.ep:hover{background:rgba(255,107,53,.28);}
+.gbtn{background:var(--o);color:var(--deep);border:none;border-radius:100px;padding:.7rem 2rem;font-family:'Caveat',cursive;font-size:1.2rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.gbtn:hover{transform:scale(1.05);box-shadow:0 6px 22px rgba(255,107,53,.38);}
+.gb-list{display:flex;flex-direction:column;gap:.9rem;}
+.gbe{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;animation:fd .4s forwards;}
+.gbe-name{font-family:'Caveat',cursive;font-size:1rem;color:var(--gold);margin-bottom:.3rem;}
+.gbe-msg{font-size:.9rem;line-height:1.7;color:var(--muted);}
+.gb-empty{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--muted);text-align:center;padding:1.5rem 0;}
+
+/* ── PAGE 6 REVEAL ── */
+#p6::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,77,109,.15) 0%,transparent 65%);pointer-events:none;}
+.lock{font-size:4.5rem;animation:pulse 2s ease-in-out infinite;margin-bottom:1rem;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.rbtn{background:linear-gradient(135deg,var(--o),var(--rose));color:#fff;border:none;border-radius:100px;padding:1rem 3rem;font-family:'Caveat',cursive;font-size:1.5rem;font-weight:700;cursor:pointer;box-shadow:0 10px 35px rgba(255,77,109,.4);transition:transform .2s,box-shadow .2s;margin-top:.5rem;}
+.rbtn:hover{transform:scale(1.06);box-shadow:0 14px 44px rgba(255,77,109,.55);}
+#rbox{display:none;width:100%;max-width:660px;margin-top:2.5rem;}
+#rbox.on{display:block;animation:fd .7s forwards;}
+.rcard{border-radius:20px;padding:2rem 2.2rem;margin-bottom:1.4rem;}
+.rcard.roast{background:var(--card);border:1px solid rgba(255,77,109,.25);}
+.rcard.poem{background:var(--card);border:1px solid rgba(255,107,53,.22);text-align:center;}
+.rcard.ask{background:linear-gradient(135deg,rgba(255,77,109,.1),rgba(255,107,53,.1));border:1px solid rgba(255,77,109,.3);text-align:center;}
+.rcard h3{font-family:'Cormorant Garamond',serif;font-size:1.45rem;margin-bottom:.9rem;}
+.rcard h3.rose{color:var(--rose);}
+.rcard h3.gold{color:var(--gold);}
+.roast-list{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+.roast-list li{font-size:.93rem;line-height:1.75;color:var(--muted);padding-left:1.6rem;position:relative;}
+.roast-list li::before{content:'🔥';position:absolute;left:0;}
+.poem p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;line-height:2.1;color:rgba(255,245,230,.85);}
+.rcard.ask p{font-size:.97rem;line-height:1.85;color:var(--muted);margin-bottom:1rem;}
+.ask-q{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-style:italic;color:var(--cream);margin:1rem 0 1.4rem;}
+.abuts{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;}
+.yes{background:var(--rose);color:#fff;border:none;border-radius:100px;padding:.7rem 2rem;font-family:'Caveat',cursive;font-size:1.35rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;}
+.yes:hover{transform:scale(1.08);box-shadow:0 8px 25px rgba(255,77,109,.5);}
+.no{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:100px;padding:.7rem 2rem;font-family:'Caveat',cursive;font-size:1.35rem;cursor:pointer;transition:transform .3s,font-size .15s,opacity .2s;position:relative;}
+#yresp{display:none;margin-top:1.1rem;font-family:'Caveat',cursive;font-size:1.4rem;color:var(--gold);}
+
+/* ── PAGE 7 HBD ── */
+#p7::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(255,107,53,.2) 0%,transparent 70%);pointer-events:none;}
+.cake{font-size:clamp(4rem,10vw,6.5rem);display:block;margin:0 auto 1rem;animation:cakebob 2.2s ease-in-out infinite;}
+@keyframes cakebob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+.hb-msg{font-family:'Caveat',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:var(--gold);max-width:480px;line-height:1.9;margin:1rem auto 0;text-align:center;}
+.cbtn{background:var(--o);color:var(--deep);border:none;border-radius:100px;padding:.85rem 2.5rem;font-family:'Caveat',cursive;font-size:1.35rem;font-weight:700;cursor:pointer;box-shadow:0 8px 28px rgba(255,107,53,.38);transition:transform .2s;margin-top:2rem;}
+.cbtn:hover{transform:scale(1.06);}
+.cp{position:fixed;pointer-events:none;z-index:9998;border-radius:2px;animation:cfall 2.5s ease-in forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="fl"></div>
+
+<!-- AUDIO — replace src with direct MP3 link to "It's U" by Njarae -->
+<audio id="song" loop>
+  <source src="" type="audio/mpeg"/>
+</audio>
+
+<nav>
+  <a class="on" onclick="go(1,this)">🏠 Home</a>
+  <a onclick="go(2,this)">😂 Jokes</a>
+  <a onclick="go(3,this)">💬 About Her</a>
+  <a onclick="go(4,this)">💌 Messages</a>
+  <a onclick="go(5,this)">📖 Guestbook</a>
+  <a onclick="go(6,this)">🎁 Reveal</a>
+  <a onclick="go(7,this)">🎂 Birthday</a>
+</nav>
+
+<!-- ══ PAGE 1: HOME ══ -->
+<section class="pg on" id="p1">
+  <p class="tag fd" style="animation-delay:.2s">✦ a whole website just for you ✦</p>
+  <h1 class="big fd" style="animation-delay:.4s">Happy Birthday<br/><em>Maryann</em> 🎃</h1>
+  <p class="sub fd" style="animation-delay:.7s">the internet's most dangerous girl 🧡</p>
+
+  <!-- music pill -->
+  <div class="mpill fd off" id="mpill" onclick="toggleMusic()" style="animation-delay:1s">
+    <div class="eqbars"><div class="eb"></div><div class="eb"></div><div class="eb"></div><div class="eb"></div><div class="eb"></div></div>
+    <span class="script" style="font-size:1.05rem" id="mlabel">♪ It's U — Njarae</span>
+  </div>
+
+  <!-- countdown to next birthday (edit date!) -->
+  <div class="cd-wrap fd" style="animation-delay:1.2s" id="cdwrap"></div>
+
+  <span class="hero-hint script">↓ explore ↓</span>
+</section>
+
+<!-- ══ PAGE 2: JOKES ══ -->
+<section class="pg" id="p2" style="justify-content:flex-start;padding-top:6rem;">
+  <h2 class="sec-title">Jokes <em>Only She</em> Gets</h2>
+  <p class="script gold" style="text-align:center;margin-bottom:.3rem">...and a few she definitely doesn't 😏</p>
+  <div class="div"></div>
+  <div class="joke-stage">
+    <div class="joke-card" id="jcard">
+      <div class="joke-emoji" id="jemoji"></div>
+      <p class="joke-text" id="jtext"></p>
+      <p class="joke-punchline" id="jpunch"></p>
+    </div>
+    <div class="joke-actions">
+      <button class="jbtn primary" onclick="revealPunch()" id="jrevbtn">Tap for punchline 👀</button>
+      <button class="jbtn" onclick="nextJoke()">Next joke →</button>
+    </div>
+    <p class="joke-counter" id="jcount"></p>
+  </div>
+</section>
+
+<!-- ══ PAGE 3: INTERACTIVE DOLLYS ══ -->
+<section class="pg" id="p3" style="justify-content:flex-start;padding-top:6rem;">
+  <h2 class="sec-title">Things About <em>Maryann</em></h2>
+  <p class="script gold" style="text-align:center;margin-bottom:.3rem">click each one 👇</p>
+  <div class="div"></div>
+  <div class="dollys">
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">🌙</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">"I'm not even tired"</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>Famous last words. Said at 10pm. She was horizontal within 7 minutes. I timed it. The scientific data is irrefutable. She's been saying this since forever and it has never once been true. God bless her. 😴</p></div>
+    </div>
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">📱</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">Her texting style</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>She leaves you on read for 2 hours, then responds with 14 messages in a row. No in-between. No explanation. Just chaos delivered in rapid fire. It keeps you on your toes. I respect it honestly. 📲💨</p></div>
+    </div>
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">🍑</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">The way she walks into a room</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>Like she knows exactly what she's doing. Because she does. There should be a hazard warning. A disclaimer. A safety briefing before she enters. Completely unfair to the rest of the room. Unregulated. 🚨</p></div>
+    </div>
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">😂</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">Her laugh</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>It starts normal, then escalates into something unhinged, then she starts wheezing, then she apologizes for laughing, then laughs at the apology. It's a whole journey. I would pay to hear it on repeat. 😭</p></div>
+    </div>
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">🔥</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">Her hot takes</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>She says something completely unhinged with the confidence of a supreme court judge, and before you can even argue — she's right. Every time. Genuinely concerning. She should not be allowed to be this correct. 🧠</p></div>
+    </div>
+
+    <div class="dolly" onclick="toggleDolly(this)">
+      <div class="dolly-head">
+        <span class="dolly-icon">💋</span>
+        <span class="dolly-q" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem">That look she gives</span>
+        <span class="dolly-arrow">▾</span>
+      </div>
+      <div class="dolly-body"><p>You know the one. The side-eye that says everything and nothing at the same time. The one that short-circuits your entire brain. I'm convinced it's a superpower and she has full control of it. Dangerous woman. 👀</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PAGE 4: MESSAGES ══ -->
+<section class="pg" id="p4" style="justify-content:flex-start;padding-top:6rem;">
+  <h2 class="sec-title">Things I <em>Mean</em></h2>
+  <p class="script gold" style="text-align:center;margin-bottom:.3rem">no jokes here (mostly) 🧡</p>
+  <div class="div"></div>
+  <div class="msgs">
+
+    <div class="msg-card" data-e="🎃">
+      <p class="msg-from">fact</p>
+      <h3>You make everything funnier</h3>
+      <p>The dumbest moments become the best stories when you're around. I don't know how you do it. It's probably illegal.</p>
+    </div>
+
+    <div class="msg-card" data-e="🔥">
+      <p class="msg-from">fact</p>
+      <h3>Criminally attractive</h3>
+      <p>I don't know who gave you permission to look like that on a regular Tuesday but they need to be investigated. Seriously.</p>
+    </div>
+
+    <div class="msg-card" data-e="🧠">
+      <p class="msg-from">underrated trait</p>
+      <h3>Smarter than she lets on</h3>
+      <p>She plays it cool and then drops the most galaxy-brain take in the room. I see through you Maryann. I respect it deeply.</p>
+    </div>
+
+    <div class="msg-card" data-e="🌙">
+      <p class="msg-from">certified truth</p>
+      <h3>Chaotic but also soft</h3>
+      <p>Absolute menace energy on the outside. Actually just a warm, funny, real human being underneath. Don't tell anyone — your brand would be ruined.</p>
+    </div>
+
+    <div class="msg-card" data-e="🎶">
+      <p class="msg-from">sworn testimony</p>
+      <h3>"It's U" hits different now</h3>
+      <p>Every time that song comes on I think of you. I'm not being cheesy. Okay I am. But it's true and I'm not apologising for it. 🧡</p>
+    </div>
+
+    <div class="msg-card" data-e="✨">
+      <p class="msg-from">the real one</p>
+      <h3>Happy Birthday, Maryann</h3>
+      <p>You deserve every ridiculous, wonderful thing today. And every day after it. The world is louder and better with you in it. Real talk. 🎃</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PAGE 5: GUESTBOOK ══ -->
+<section class="pg" id="p5" style="justify-content:flex-start;padding-top:6rem;">
+  <h2 class="sec-title">Virtual <em>Guestbook</em></h2>
+  <p class="script gold" style="text-align:center;margin-bottom:.3rem">leave Maryann a birthday message 🎉</p>
+  <div class="div"></div>
+  <div class="gb-wrap">
+    <div class="gb-form">
+      <h3>Drop your message 💬</h3>
+      <input id="gn" class="gf" type="text" placeholder="Your name or nickname 😏" maxlength="40"/>
+      <textarea id="gm" class="gf" placeholder="Write something sweet, funny, chaotic... anything goes 🎃" maxlength="300"></textarea>
+      <div class="eprow" id="eprow"></div>
+      <button class="gbtn" onclick="submitGB()">Post it ✨</button>
+    </div>
+    <div class="gb-list" id="gblist">
+      <p class="gb-empty">No messages yet — be the first! 🎂</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAGE 6: GRAND REVEAL ══ -->
+<section class="pg" id="p6">
+  <h2 class="sec-title">The <em>Reveal</em></h2>
+  <p class="script gold" style="margin-bottom:1rem;text-align:center">okay… there's something I need to say 👀</p>
+  <div class="lock" id="lck">🔒</div>
+  <p class="script" style="color:var(--muted);margin-bottom:1.2rem">tap when you're ready…</p>
+  <button class="rbtn" onclick="openReveal()">Open the reveal 🎁</button>
+
+  <div id="rbox">
+    <div class="rcard roast">
+      <h3 class="rose">🔥 The Roast (with love)</h3>
+      <ul class="roast-list">
+        <li>She says "I'm not even tired" and is asleep before the sentence finishes echoing. Recorded. Documented. Peer reviewed.</li>
+        <li>Has the audacity to be this pretty during a TALKING STAGE. No warning. Just walked in and decided to be a problem.</li>
+        <li>Sends voice notes at 2am like that's normal behaviour. I listen to all of them immediately. I need help.</li>
+        <li>Says "it's fine" when it is clearly, visibly, scientifically NOT fine. We both know. She knows I know. The silence speaks.</li>
+        <li>Exists with that energy and then acts confused when people can't think straight around her. The delusion is impressive honestly.</li>
+      </ul>
+    </div>
+
+    <div class="rcard poem">
+      <h3 class="gold">🧡 A Poem for Maryann</h3>
+      <div class="poem">
+        <p>
+          They say the sun just rises every day,<br/>
+          routine and warm and easy to ignore —<br/>
+          but then there's you, who showed up in a way<br/>
+          that made me want to pay attention more.<br/><br/>
+          You laugh too loud and text back when you feel,<br/>
+          you're messy-honest in the best of ways,<br/>
+          and everything about you feels so real<br/>
+          it scares me — in the good way — these days.<br/><br/>
+          Happy Birthday, Maryann. Stay exactly this.<br/>
+          The world is better, louder — and so lit. 🧡
+        </p>
+      </div>
+    </div>
+
+    <div class="rcard ask">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem">💋 Okay but real talk…</h3>
+      <p>
+        So we're in the talking stage.<br/>
+        And I built you a whole website.<br/>
+        That's not subtle. I know. I don't care.<br/><br/>
+        I really like you, Maryann. Like, embarrassingly so.<br/>
+        So on your birthday — I just want to ask —
+      </p>
+      <p class="ask-q">Can I be your person? 🎃</p>
+      <div class="abuts">
+        <button class="yes" onclick="sayYes()">Yes obviously 😍</button>
+        <button class="no" id="noBtn" onmouseover="runAway()" onclick="runAway()">Maybe later 🙈</button>
+      </div>
+      <p id="yresp">SHE SAID YES!!! 🎉🎃🧡 I KNEW IT. I KNEW IT.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAGE 7: HAPPY BIRTHDAY ══ -->
+<section class="pg" id="p7">
+  <span class="cake">🎂</span>
+  <h1 class="big">Happy<br/><em>Birthday</em><br/>Maryann</h1>
+  <p class="hb-msg">
+    Another year of you being dangerously amazing.<br/>
+    The world doesn't deserve you honestly. 🧡<br/>
+    But I'm trying to. 😏
+  </p>
+  <button class="cbtn" onclick="confetti()">🎉 Celebrate!</button>
+</section>
+
+<script>
+/* ─── cursor ─── */
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+
+/* ─── floaters ─── */
+const ems=['🎃','🧡','✨','🎂','💋','🌙','⭐','🔥','💫','🎉','🫶','😏'];
+const fc=document.getElementById('fl');
+for(let i=0;i<28;i++){
+  const el=document.createElement('span');
+  el.className='f';el.textContent=ems[~~(Math.random()*ems.length)];
+  el.style.cssText=`left:${Math.random()*100}vw;font-size:${.8+Math.random()*1.5}rem;animation-duration:${9+Math.random()*15}s;animation-delay:${Math.random()*13}s`;
+  fc.appendChild(el);
+}
+
+/* ─── nav ─── */
+function go(n,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('on'));
+  document.getElementById('p'+n).classList.add('on');
+  if(el)el.classList.add('on');
+  window.scrollTo(0,0);
+  if(n===2)loadJoke();
+}
+
+/* ─── music ─── */
+const song=document.getElementById('song');
+const mpill=document.getElementById('mpill');
+const mlabel=document.getElementById('mlabel');
+let playing=false;
+song.volume=.65;
+
+function startSong(){
+  if(!playing){
+    song.play().then(()=>{playing=true;mpill.classList.remove('off');mlabel.textContent='♪ It\'s U — Njarae';}).catch(()=>{});
+  }
+}
+// Try autoplay; fallback on first interaction
+song.play().then(()=>{playing=true;mpill.classList.remove('off');}).catch(()=>{});
+document.addEventListener('click',function first(){startSong();document.removeEventListener('click',first);},{once:true});
+
+function toggleMusic(){
+  if(playing){song.pause();playing=false;mpill.classList.add('off');mlabel.textContent='⏸ It\'s U — Njarae';}
+  else{song.play();playing=true;mpill.classList.remove('off');mlabel.textContent='♪ It\'s U — Njarae';}
+}
+
+/* ─── countdown ─── */
+(function(){
+  // SET HER BIRTHDAY HERE — format: month (0-indexed), day
+  const now=new Date();
+  let next=new Date(now.getFullYear(), 4, 22); // May 22 — change to her actual birthday!
+  if(next<=now) next=new Date(now.getFullYear()+1,4,22);
+  const diff=next-now;
+  const d=Math.floor(diff/864e5);
+  const h=Math.floor((diff%864e5)/36e5);
+  const m=Math.floor((diff%36e5)/6e4);
+  const s=Math.floor((diff%6e4)/1e3);
+  const wrap=document.getElementById('cdwrap');
+  if(d===0&&h<2){
+    wrap.innerHTML='<p class="script gold" style="font-size:1.4rem">🎂 It\'s TODAY! Happy Birthday Maryann! 🎉</p>';
+  } else {
+    wrap.innerHTML=`
+      <p class="script gold" style="margin-bottom:.8rem;font-size:.95rem;letter-spacing:.12em">⏳ until the big day</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        ${[['Days',d],['Hours',h],['Mins',m],['Secs',s]].map(([l,v])=>`
+          <div class="cd-box"><div class="cd-num" id="cd-${l}">${String(v).padStart(2,'0')}</div><div class="cd-label">${l}</div></div>
+        `).join('')}
+      </div>`;
+    setInterval(()=>{
+      const now2=new Date();
+      const d2=next-now2;
+      if(d2<=0){document.getElementById('cdwrap').innerHTML='<p class="script gold" style="font-size:1.4rem">🎂 It\'s TODAY! 🎉</p>';return;}
+      document.getElementById('cd-Days').textContent=String(Math.floor(d2/864e5)).padStart(2,'0');
+      document.getElementById('cd-Hours').textContent=String(Math.floor((d2%864e5)/36e5)).padStart(2,'0');
+      document.getElementById('cd-Mins').textContent=String(Math.floor((d2%36e5)/6e4)).padStart(2,'0');
+      document.getElementById('cd-Secs').textContent=String(Math.floor((d2%6e4)/1e3)).padStart(2,'0');
+    },1000);
+  }
+})();
+
+/* ─── jokes ─── */
+const jokes=[
+  {e:'😴',q:'Why does Maryann always say "I\'m not even tired"?',p:'Because the alternative is admitting she\'s already 40% asleep. 😴'},
+  {e:'📱',q:'What\'s Maryann\'s texting speed?',p:'0 to 14 messages in 0.3 seconds after 3 hours of silence. No context provided. 📲'},
+  {e:'🍑',q:'How does Maryann walk into a room?',p:'Like the main character. Because she is. The rest of us are supporting cast. 🎬'},
+  {e:'🔥',q:'What\'s Maryann\'s superpower?',p:'Looking incredible without trying while everyone else is visibly suffering. Rude but iconic. 💅'},
+  {e:'😂',q:'How does Maryann laugh?',p:'Starts normal → escalates → becomes a wheeze → she laughs at the wheeze → chaos. 10/10 performance every time.'},
+  {e:'👀',q:'What does Maryann do when she likes something?',p:'Pretends she doesn\'t. Absolute poker face. Then sends a 3am voice note about it. We see you. 😏'},
+  {e:'🧠',q:'How does Maryann win every argument?',p:'Says something completely unhinged with supreme court confidence. Somehow she\'s right. Every time. Terrifying.'},
+  {e:'🎃',q:'What do you call Maryann on her birthday?',p:'A whole problem in the best possible way. Happy Birthday, Pumpkin. 🧡'},
+  {e:'💋',q:'Why is the talking stage taking so long?',p:'Because someone keeps looking like THAT and acting like it\'s normal. You know who you are, Maryann.'},
+  {e:'🌙',q:'Maryann\'s "I\'ll sleep early tonight" plan?',p:'Defined as: still on the phone at 2am saying "okay last message." It never is. Bless.'},
+];
+let ji=0,revealed=false;
+function loadJoke(){
+  revealed=false;
+  const j=jokes[ji];
+  document.getElementById('jemoji').textContent=j.e;
+  document.getElementById('jtext').textContent=j.q;
+  const p=document.getElementById('jpunch');
+  p.textContent=j.p;p.classList.remove('show');
+  document.getElementById('jrevbtn').style.display='inline-block';
+  document.getElementById('jcount').textContent=`${ji+1} / ${jokes.length}`;
+}
+function revealPunch(){
+  document.getElementById('jpunch').classList.add('show');
+  document.getElementById('jrevbtn').style.display='none';
+  revealed=true;
+}
+function nextJoke(){ji=(ji+1)%jokes.length;loadJoke();}
+loadJoke();
+
+/* ─── dollys ─── */
+function toggleDolly(el){el.classList.toggle('open');}
+
+/* ─── guestbook ─── */
+const gbEmojis=['🎂','🧡','🎉','🔥','✨','😍','🎃','💋','🥳','🌙','😂','🫶'];
+let selE='🎂';
+const eprow=document.getElementById('eprow');
+gbEmojis.forEach(em=>{
+  const b=document.createElement('button');
+  b.className='ep'+(em==='🎂'?' sel':'');
+  b.textContent=em;
+  b.onclick=()=>{selE=em;document.querySelectorAll('.ep').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};
+  eprow.appendChild(b);
+});
+const entries=[];
+function submitGB(){
+  const name=document.getElementById('gn').value.trim();
+  const msg=document.getElementById('gm').value.trim();
+  if(!name||!msg){alert('Fill in your name and message! 🎃');return;}
+  entries.unshift({name,msg,emoji:selE});
+  document.getElementById('gn').value='';document.getElementById('gm').value='';
+  renderGB();
+}
+function renderGB(){
+  const l=document.getElementById('gblist');
+  if(!entries.length){l.innerHTML='<p class="gb-empty">No messages yet — be the first! 🎂</p>';return;}
+  l.innerHTML=entries.map(e=>`<div class="gbe"><div style="font-size:1.5rem;margin-bottom:.3rem">${e.emoji}</div><div class="gbe-name">${e.name}</div><div class="gbe-msg">${e.msg}</div></div>`).join('');
+}
+
+/* ─── reveal ─── */
+function openReveal(){
+  document.getElementById('lck').textContent='🔓';
+  document.getElementById('rbox').classList.add('on');
+  confetti();
+}
+function sayYes(){
+  document.getElementById('yresp').style.display='block';
+  confetti();confetti();
+}
+let noMoves=0;
+function runAway(){
+  noMoves++;
+  const nb=document.getElementById('noBtn');
+  const x=(Math.random()-.5)*320;const y=(Math.random()-.5)*220;
+  nb.style.transform=`translate(${x}px,${y}px)`;
+  nb.style.opacity=Math.max(0,1-noMoves*.15)+'';
+  nb.style.fontSize=Math.max(.5,1.35-noMoves*.12)+'rem';
+  if(noMoves>=7)nb.style.display='none';
+}
+
+/* ─── confetti ─── */
+function confetti(){
+  const cols=['#FF6B35','#FFB347','#FF4D6D','#FFF5E6','#FFD700','#FF85A1','#fff'];
+  for(let i=0;i<140;i++){
+    const p=document.createElement('div');p.className='cp';
+    p.style.cssText=`left:${Math.random()*100}vw;background:${cols[~~(Math.random()*cols.length)]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;width:${6+Math.random()*10}px;height:${8+Math.random()*14}px;border-radius:${Math.random()>.5?'50%':'2px'}`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),3500);
+  }
+}
+</script>
+</body>
+</html>
