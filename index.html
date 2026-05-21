@@ -449,19 +449,39 @@ const mlabel=document.getElementById('mlabel');
 let playing=false;
 song.volume=.65;
 
-function startSong(){
-  if(!playing){
-    song.play().then(()=>{playing=true;mpill.classList.remove('off');mlabel.textContent='♪ It\'s U — Njarae';}).catch(()=>{});
-  }
-}
-// Try autoplay; fallback on first interaction
-song.play().then(()=>{playing=true;mpill.classList.remove('off');}).catch(()=>{});
-document.addEventListener('click',function first(){startSong();document.removeEventListener('click',first);},{once:true});
+// Handle loading state
+song.addEventListener('canplay',()=>{song.style.opacity='1';});
+song.addEventListener('error',(e)=>{console.warn('Audio load error:',e);mlabel.textContent='⚠ Audio issue'});
 
 function toggleMusic(){
-  if(playing){song.pause();playing=false;mpill.classList.add('off');mlabel.textContent='⏸ It\'s U — Njarae';}
-  else{song.play();playing=true;mpill.classList.remove('off');mlabel.textContent='♪ It\'s U — Njarae';}
+  if(playing){
+    song.pause();
+    playing=false;
+    mpill.classList.add('off');
+    mlabel.textContent='⏸ It\'s U — Njarae';
+  } else {
+    const p=song.play();
+    if(p!==undefined){
+      p.then(()=>{
+        playing=true;
+        mpill.classList.remove('off');
+        mlabel.textContent='♪ It\'s U — Njarae';
+      }).catch((err)=>{
+        console.warn('Playback failed:',err);
+        mlabel.textContent='Click to play';
+      });
+    }
+  }
 }
+
+// Try autoplay; fallback on first click
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    song.play().then(()=>{playing=true;mpill.classList.remove('off');}).catch(()=>{
+      document.addEventListener('click',function first(){toggleMusic();document.removeEventListener('click',first);},{once:true});
+    });
+  },500);
+},false);
 
 /* ─── countdown ─── */
 (function(){
