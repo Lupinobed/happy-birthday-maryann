@@ -13,7 +13,7 @@
   --border:rgba(255,107,53,.18);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
 body{background:var(--deep);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
 #cur{width:14px;height:14px;background:var(--o);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:left .06s,top .06s;}
 
@@ -28,8 +28,14 @@ nav a:hover,nav a.on{color:var(--cream);background:rgba(255,107,53,.2);}
 @keyframes fup{0%{transform:translateY(105vh) rotate(0);opacity:0}8%{opacity:.13}92%{opacity:.13}100%{transform:translateY(-8vh) rotate(360deg);opacity:0}}
 
 /* PAGES */
-.pg{display:none;min-height:100vh;padding:5.5rem 1.5rem 4rem;position:relative;z-index:1;}
-.pg.on{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.pg{display:flex;min-height:100vh;padding:5.5rem 1.5rem 4rem;position:relative;z-index:1;flex-direction:column;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always;}
+.pg.on{display:flex;}
+
+@media(max-width:768px){
+  .pg{min-height:100dvh;padding:5rem 1rem 3rem;}
+  nav{padding:.5rem .5rem;gap:.1rem;}
+  nav a{font-size:.85rem;padding:.3rem .6rem;}
+}
 
 /* TYPOGRAPHY */
 .big{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,11vw,8rem);line-height:1.03;text-align:center;}
@@ -434,11 +440,12 @@ for(let i=0;i<28;i++){
 
 /* ─── nav ─── */
 function go(n,el){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('on'));
-  document.getElementById('p'+n).classList.add('on');
-  if(el)el.classList.add('on');
-  window.scrollTo(0,0);
+  const page=document.getElementById('p'+n);
+  if(page){
+    page.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('on'));
+    if(el)el.classList.add('on');
+  }
   if(n===2)loadJoke();
 }
 
@@ -511,6 +518,16 @@ window.addEventListener('load',()=>{
     },1000);
   }
 })();
+
+/* ─── scroll detection for nav highlighting ─── */
+window.addEventListener('scroll',()=>{
+  let current=1;
+  for(let i=1;i<=7;i++){
+    const el=document.getElementById('p'+i);
+    if(el&&el.getBoundingClientRect().top<=window.innerHeight/2){current=i;}
+  }
+  document.querySelectorAll('nav a').forEach((a,idx)=>a.classList.toggle('on',idx===current-1));
+});
 
 /* ─── jokes ─── */
 const jokes=[
