@@ -167,8 +167,8 @@ textarea.gf{resize:vertical;min-height:80px;}
 <div id="cur"></div>
 <div id="fl"></div>
 
-<!-- AUDIO — replace src with direct MP3 link to "It's U" by Njarae -->
-<audio id="song" loop>
+<!-- AUDIO — autoplay with fallback for browser policies -->
+<audio id="song" loop autoplay muted>
   <source src="song.mp3" type="audio/mpeg"/>
 </audio>
 
@@ -451,22 +451,18 @@ song.volume=.65;
 
 // Handle loading state
 song.addEventListener('canplay',()=>{song.style.opacity='1';});
+song.addEventListener('play',()=>{playing=true;mpill.classList.remove('off');});
+song.addEventListener('pause',()=>{playing=false;mpill.classList.add('off');});
 song.addEventListener('error',(e)=>{console.warn('Audio load error:',e);mlabel.textContent='⚠ Audio issue'});
 
 function toggleMusic(){
   if(playing){
     song.pause();
-    playing=false;
-    mpill.classList.add('off');
-    mlabel.textContent='⏸ It\'s U — Njarae';
   } else {
+    song.muted=false;
     const p=song.play();
     if(p!==undefined){
-      p.then(()=>{
-        playing=true;
-        mpill.classList.remove('off');
-        mlabel.textContent='♪ It\'s U — Njarae';
-      }).catch((err)=>{
+      p.catch((err)=>{
         console.warn('Playback failed:',err);
         mlabel.textContent='Click to play';
       });
@@ -474,13 +470,12 @@ function toggleMusic(){
   }
 }
 
-// Try autoplay; fallback on first click
+// Unmute and start on page load
 window.addEventListener('load',()=>{
   setTimeout(()=>{
-    song.play().then(()=>{playing=true;mpill.classList.remove('off');}).catch(()=>{
-      document.addEventListener('click',function first(){toggleMusic();document.removeEventListener('click',first);},{once:true});
-    });
-  },500);
+    song.muted=false;
+    song.play().catch(()=>{console.log('Autoplay blocked; waiting for user interaction')});
+  },300);
 },false);
 
 /* ─── countdown ─── */
